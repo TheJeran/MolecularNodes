@@ -12,12 +12,12 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 bl_info = {
-    "name"        : "MolecularNodes",
+    "name"        : "molecularnodes",
     "author"      : "Brady Johnston",
     "description" : "Toolbox for molecular animations in Blender & Geometry Nodes.",
     "blender"     : (3, 5, 0),
     "version"     : (2, 10, 0),
-    "location"    : "Scene Properties -> MolecularNodes",
+    "location"    : "Scene Properties -> Molecular Nodes",
     "warning"     : "",
     "doc_url"     : "https://bradyajohnston.github.io/MolecularNodes/",
     "tracker_url" : "https://github.com/BradyAJohnston/MolecularNodes/issues",
