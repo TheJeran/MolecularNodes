@@ -1,6 +1,9 @@
 import bpy
 import numpy as np
 
+def get_evaluated(object):
+    return object.evaluated_get(bpy.context.evaluated_depsgraph_get())
+
 def create_object(
     locations: np.ndarray, 
     edges = [], 
@@ -111,13 +114,13 @@ def add_attribute(object: bpy.types.Object, name: str, data: np.ndarray, type="F
     
     return att
 
-def get_attribute(obj: bpy.types.Object, att_name='position') -> np.array:
+def get_attribute(object: bpy.types.Object, att_name='position', evaluated = False) -> np.array:
     """
     Retrieve an attribute from the object as a NumPy array.
 
     Parameters
     ----------
-    obj : bpy.types.Object
+    object : bpy.types.Object
         The Blender object from which the attribute will be retrieved.
     att_name : str, optional
         The name of the attribute to retrieve. Default is 'position'.
@@ -141,7 +144,9 @@ def get_attribute(obj: bpy.types.Object, att_name='position') -> np.array:
     """
 
     # Get the attribute from the object's mesh
-    att = obj.to_mesh().attributes[att_name]
+    if evaluated:
+        object = get_evaluated(object)
+    att = object.data.attributes[att_name]
 
     # Map attribute values to a NumPy array based on the attribute data type
     if att.data_type in ['INT', 'FLOAT', 'BOOLEAN']:
@@ -195,7 +200,7 @@ def set_position(object, locations: np.ndarray):
 
     Example
     -------
-    set_position(obj, np.array([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]]))
+    set_position(object, np.array([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]]))
     """
     # Check if the input object is valid
     if not isinstance(object, bpy.types.Object):

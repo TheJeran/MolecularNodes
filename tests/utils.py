@@ -17,11 +17,14 @@ def apply_mods(obj):
 
 
 def sample_attribute(object,
-                    attribute,
+                    name,
                     n = 100,
-                    seed = 6):
+                    seed = 6, 
+                    evaluated = False):
     random.seed(seed)
-    attribute = mn.blender.obj.get_attribute(object, attribute)
+    if evaluated:
+        object = mn.blender.obj.get_evaluated(object)
+    attribute = mn.blender.obj.get_attribute(object, name)
     length = len(attribute)
     
     if n > length:
