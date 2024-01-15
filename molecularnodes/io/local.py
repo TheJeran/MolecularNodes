@@ -43,8 +43,12 @@ def load(
         mol, file = open_structure_local_pdb(file_path)
         try:
             transforms = assembly.pdb.PDBAssemblyParser(file).get_assemblies()
+            print(transforms)
         except InvalidFileError:
             pass
+    
+    elif file_ext == '.mol':
+        mol, file = open_structure_local_mol(file_path)
 
     elif file_ext == '.pdbx' or file_ext == '.cif':
         mol, file = open_structure_local_pdbx(file_path)
@@ -161,6 +165,14 @@ def open_structure_local_pdb(file_path):
     mol = pdb.get_structure(file, extra_fields = ['b_factor', 'charge', 'occupancy', 'atom_id'], include_bonds = True)
     return mol, file
 
+def open_structure_local_mol(file_path):
+    from biotite.structure.io.mol import MOLFile
+
+    file = MOLFile.read(file_path)
+
+    mol = file.get_structure()
+
+    return mol,file
 
 def open_structure_local_pdbx(file_path):
     import biotite.structure as struc
